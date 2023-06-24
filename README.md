@@ -1,1 +1,1 @@
-![Architecture](images/sesion twitch.drawio.png)
+![Architecture](images/architecture.png)
