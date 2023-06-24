@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Detect Risky dates in tickers
+
+Parameters:
+  RepoName:
+    Type: String
+    Description: The name of the GitHub repository
+  LambdaCodeVersion:
+    Type: String
+    Description: Version ID of the Lambda code in the S3 bucket
+  LambdaLayerVersion:
+    Type: String
+    Description: Version ID of the Lambda dependencies in the S3 bucket
+
+Resource:
+  CreateWindowLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: src.lambda.create_ticker_risk_window.handler
+      Role: !GetAtt CreateWindowExecutionRole.Arn
+      Code:
+        S3Bucket: lambda-code-tests
+        S3Key: !Sub "${RepoName}/lambda_code.zip"
+        S3ObjectVersion: !Ref LambdaCodeVersion
+      Runtime: python3.9
+      FunctionName: create-window
+      Layers:
+        - !Ref DependenciesLambdaLayer
+        -
+  DependenciesLambdaLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: lambda-dependencies
+      CompatibleRuntimes:
+        - python3.9
+      Content:
+        S3Bucket: lambda-dependencies-test
+        S3Key: !Sub "${RepoName}/dependencies_layer.zip"
+        S3ObjectVersion: !Ref LambdaLayerVersion

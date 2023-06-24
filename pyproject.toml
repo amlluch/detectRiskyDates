@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "detectriskydates"
+version = "0.1.0"
+description = "Detects risky operations by ticket"
+authors = ["Alfonso Lluch <amlluch@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+boto3 = "^1.26.160"
+pandas = "^2.0.2"
+numpy = "^1.25.0"
+yfinance = "^0.2.21"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
